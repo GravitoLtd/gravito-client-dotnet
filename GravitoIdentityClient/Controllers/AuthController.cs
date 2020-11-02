@@ -38,7 +38,6 @@ namespace Gravito.IdentityClient.Controllers
 
                     GrantType = _configuration.GetValue<string>("Identity:GrantType"),
                     ClientId = _configuration.GetValue<string>("Identity:ClientId"),
-                    ClientSecret = _configuration.GetValue<string>("Identity:ClientSecret"),
                     Scope = _configuration.GetValue<string>("Identity:Scope")
                 }) ;
 
