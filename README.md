@@ -39,15 +39,15 @@ var serverClient = _httpClientFactory.CreateClient();
 
 * Get the available configuration of the server
 ```c#
-var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync(_configuration.GetValue<string>("Identity-Server-Address"));
+var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync(_configuration.GetValue<string>("Identity:ServerAddress"));
 ```
 
-We can access the ServerAddress from `appsettings.json` or from Azure Keuy-Vault.
+We can access the ServerAddress from `appsettings.json` or from Azure Key-Vault.
 
 
 * Call TokenEndpoint and get the token
 ```c#
-var tokenResponse = await serverClient.RequestClientCredentialsTokenAsync(
+var tokenResponse = await serverClient.RequestClientCredentialsTokenAsync (
 new ClientCredentialsTokenRequest
 {
     Address = discoveryDocument.TokenEndpoint,
@@ -55,7 +55,7 @@ new ClientCredentialsTokenRequest
     GrantType = _configuration.GetValue<string>("Identity:GrantType"),
     ClientId = _configuration.GetValue<string>("Identity:ClientId"),
     Scope = _configuration.GetValue<string>("Identity:Scope")
-}) ;
+});
 ```
 
 [GitHub Repository]: https://github.com/GravitoLtd/gravito-client-dotnet
