@@ -1,9 +1,9 @@
 # Gravito Client .Net
 Gravito's IdentityServer4 client for C#.Net
 
-A sample project which demonstrate how to connect to Gravito and get the access_token.
+A sample project which demonstrates how to connect to Gravito and get the access_token.
 
-Open and view the Project using the `.zip` file provided or at my [GitHub Repository]
+Open and view the Project using the `.zip` file download or at our [GitHub Repository]
 
 ## Table of Contents
 - [Getting Started](#getting-started)
@@ -12,20 +12,20 @@ Open and view the Project using the `.zip` file provided or at my [GitHub Reposi
 
 ## Getting Started
 
-The project might have multiple branches: `master`, `development`, etc. which are:
+You can find the detailed documentation about the **Gravito Identity Management** at [Gravito Docs].
 
-* `master` contains aggregate code of all branches
-* `development` contains code under development
+We have explained how Gravito works as an Identity Provider.
 
-### Tools Required
+Here are a few things which helps you consume the Gravito APIs.
 
-* Visual Studio Code
-* Visual Studio 2019
+## Tools Required
+
+* VS Code OR Visual Studio 2019
 * Microsoft .Net Core SDK 3.1.*
 
-## Running the App
+## Usage
 
-Steps for running the app:
+Code required to get the access token from server:
 
 * Declare private variable of `IHttpClientFactory`, inject it in constructure
 ```c#
@@ -58,6 +58,38 @@ new ClientCredentialsTokenRequest
 });
 ```
 
-[GitHub Repository]: https://github.com/GravitoLtd/gravito-client-dotnet
+## What after getting token?
+### Here is what you can do next:
+* Create another client for using protected APIs
+* Set the received bearer token to created client
 
-[Website]:(https://www.gravito.net)
+```c#
+var apiClient = _httpClientFactory.CreateClient();
+apiClient.SetBearerToken(tokenResponse.AccessToken);
+```
+
+* Prepare your data
+
+```c#
+var sampleModel = new
+{
+    Property1 = "data",
+    Property2 = "data"
+};
+
+var json = JsonConvert.SerializeObject(sampleModel);
+var data = new StringContent(json, Encoding.UTF8, "application/json");
+```
+* Access the protected APIs
+
+```c#
+var response = await apiClient.PostAsync("https://protected-endpoint", data);
+var content = await response.Content.ReadAsStringAsync();
+```
+
+## Visit us at
+[Website]
+
+[GitHub Repository]: https://github.com/GravitoLtd/gravito-client-dotnet
+[Website]: https://www.gravito.net
+[Gravito Docs]: https://docs.gravito.net/gravito-identity-provider/getting-started
