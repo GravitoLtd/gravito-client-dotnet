@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gravito.IdentityClient", "Client\Gravito.IdentityClient.csproj", "{1837FB76-B6D8-4DE8-A588-4476ADF2E0D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gravito.IdentityClient", "GravitoIdentityClient\Gravito.IdentityClient.csproj", "{329D3DBF-6306-4C19-91AE-FE4C80E9CFDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1837FB76-B6D8-4DE8-A588-4476ADF2E0D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1837FB76-B6D8-4DE8-A588-4476ADF2E0D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1837FB76-B6D8-4DE8-A588-4476ADF2E0D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1837FB76-B6D8-4DE8-A588-4476ADF2E0D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{329D3DBF-6306-4C19-91AE-FE4C80E9CFDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{329D3DBF-6306-4C19-91AE-FE4C80E9CFDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{329D3DBF-6306-4C19-91AE-FE4C80E9CFDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{329D3DBF-6306-4C19-91AE-FE4C80E9CFDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
