@@ -6,9 +6,11 @@ A sample project which demonstrates how to connect to Gravito and get the access
 Open and view the Project using the `.zip` file download or at our [GitHub Repository]
 
 ## Table of Contents
-- [Getting Started](#getting-started)
-	- [Tools Required](#tools-required)
-- [Running the App](#running-the-app)
+- [Getting started](#getting-started)
+- [Tools required](#tools-required)
+- [Usage guide](#usage-guide)
+- [What after getting token?](#what-after-getting-token)
+- [Visit us at](#visit-us-at)
 
 ## Getting Started
 
@@ -18,7 +20,7 @@ We have explained how Gravito works as an Identity Provider.
 
 Here are a few things which helps you consume the Gravito APIs.
 
-## Tools Required
+## Tools required
 
 * VS Code OR Visual Studio 2019
 * Microsoft .Net Core SDK 3.1.*
