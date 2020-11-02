@@ -1,4 +1,4 @@
-# gravito-is4-client-dotnet
+# Gravito Client .Net
 Gravito's IdentityServer4 client for C#.Net
 
 A sample project which demonstrate how to connect to Gravito and get the access_token.
