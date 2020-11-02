@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Gravito.IdentityClient": {
+      "commandName": "Project",
+      "launchBrowser": true
+    }
+  }
+}
