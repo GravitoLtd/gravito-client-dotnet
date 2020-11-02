@@ -89,6 +89,17 @@ var response = await apiClient.PostAsync("https://protected-endpoint", data);
 var content = await response.Content.ReadAsStringAsync();
 ```
 
+### appsettings.json file
+```json
+"Identity": {
+    "ClientId": "custom_token_client",
+    "ClientSecret": "client_secret",
+    "Scope": "API",
+    "GrantType": "client_credentials",
+    "ServerAddress": "https://dev-identity.gravito.net/"
+}
+```
+
 ## Visit us at
 [Website]
 
