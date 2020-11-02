@@ -41,27 +41,30 @@ namespace Gravito.IdentityClient.Controllers
                     Scope = _configuration.GetValue<string>("Identity:Scope")
                 }) ;
 
-            // Create another client to connect to Gravito
-            var apiClient = _httpClientFactory.CreateClient();
-            apiClient.SetBearerToken(tokenResponse.AccessToken);
+            #region -- Create another client to connect to protected endpoint
 
-            var magicLink = new
-            {
-                Email = "testemail@gravito.net",
-                Token = ""
-            };
+            //var apiClient = _httpClientFactory.CreateClient();
+            //apiClient.SetBearerToken(tokenResponse.AccessToken);
 
-            var json = JsonConvert.SerializeObject(magicLink);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            //var sampleModel = new
+            //{
+            //    Property1 = "data",
+            //    Property2 = "data"
+            //};
 
-            // Access the API secured / authorized by IdentityServer
-            var response = await apiClient.PostAsync("https://dev-api.gravito.net/api/account/magiclink", data);
-            var content = await response.Content.ReadAsStringAsync();
+            //var json = JsonConvert.SerializeObject(sampleModel);
+            //var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            //// Access the API secured / authorized by IdentityServer
+            //var response = await apiClient.PostAsync("https://protected-endpoint", data);
+            //var content = await response.Content.ReadAsStringAsync();
+
+            #endregion
 
             return Ok(new
             {
                 access_token = tokenResponse.AccessToken,
-                message = content,
+                //message = content,
             });
         }
     }
