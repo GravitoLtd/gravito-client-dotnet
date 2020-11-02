@@ -25,7 +25,7 @@ Here are a few things which helps you consume the Gravito APIs.
 * VS Code OR Visual Studio 2019
 * Microsoft .Net Core SDK 3.1.*
 
-## Usage
+## Usage guide
 
 Code required to get the access token from server:
 
