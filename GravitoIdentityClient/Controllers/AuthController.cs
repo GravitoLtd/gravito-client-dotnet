@@ -1,9 +1,11 @@
 ﻿using IdentityModel.Client;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
+using Microsoft.Extensions.Primitives;
+using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Gravito.IdentityClient.Controllers
@@ -12,6 +14,7 @@ namespace Gravito.IdentityClient.Controllers
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
+        private readonly string _accessToken;
 
         // You can use Azure Key-Vault to store the key information like client_id, client_secret
 
@@ -19,28 +22,53 @@ namespace Gravito.IdentityClient.Controllers
         {
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
+
+            // client should store this token
+            string accessToken = "";
+
+            if (!string.IsNullOrWhiteSpace(accessToken))
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var jwtSecurityToken = tokenHandler.ReadJwtToken(accessToken);
+
+                if (jwtSecurityToken.ValidTo < DateTime.UtcNow)
+                {
+                    // The previous token is expired
+
+                    _accessToken = GetAccessToken();
+                }
+            }
+            else
+            {
+                // get the access token for the first time
+                _accessToken = GetAccessToken();
+            }
         }
 
         [Route("token")]
         public async Task<IActionResult> GetToken()
         {
-            // Create client to connect to IdentityServer
-            var serverClient = _httpClientFactory.CreateClient();
+            #region -- Get the access token
 
-            // Get the available configuration of the server
-            var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync(_configuration.GetValue<string>("Identity:ServerAddress"));
+            //// Create client to connect to IdentityServer
+            //var serverClient = _httpClientFactory.CreateClient();
 
-            // Call TokenEndpoint and get the token
-            var tokenResponse = await serverClient.RequestClientCredentialsTokenAsync(
-                new ClientCredentialsTokenRequest
-                {
-                    Address = discoveryDocument.TokenEndpoint,
+            //// Get the available configuration of the server
+            //var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync(_configuration.GetValue<string>("Identity:ServerAddress"));
 
-                    GrantType = _configuration.GetValue<string>("Identity:GrantType"),
-                    ClientId = _configuration.GetValue<string>("Identity:ClientId"),
-                    ClientSecret = _configuration.GetValue<string>("Identity:ClientSecret"),
-                    Scope = _configuration.GetValue<string>("Identity:Scope")
-                }) ;
+            //// Call TokenEndpoint and get the token
+            //var tokenResponse = await serverClient.RequestClientCredentialsTokenAsync(
+            //    new ClientCredentialsTokenRequest
+            //    {
+            //        Address = discoveryDocument.TokenEndpoint,
+
+            //        GrantType = _configuration.GetValue<string>("Identity:GrantType"),
+            //        ClientId = _configuration.GetValue<string>("Identity:ClientId"),
+            //        ClientSecret = _configuration.GetValue<string>("Identity:ClientSecret"),
+            //        Scope = _configuration.GetValue<string>("Identity:Scope")
+            //    }) ;
+
+            #endregion
 
             #region -- Create another client to connect to protected endpoint
 
@@ -64,9 +92,34 @@ namespace Gravito.IdentityClient.Controllers
 
             return Ok(new
             {
-                access_token = tokenResponse.AccessToken,
+                //access_token = tokenResponse.AccessToken,
+                access_token = _accessToken
                 //message = content,
             });
+        }
+
+        /// <summary>
+        /// Get the new access token
+        /// </summary>
+        ///
+
+        public string GetAccessToken()
+        {
+            // retrieve access token
+            var serverClient = new HttpClient();
+
+            var discoveryDocument = serverClient.GetDiscoveryDocumentAsync("https://dev-identity.gravito.net/").GetAwaiter().GetResult();
+            var tokenResponse = serverClient.RequestClientCredentialsTokenAsync(
+                new ClientCredentialsTokenRequest
+                {
+                    Address = discoveryDocument.TokenEndpoint,
+
+                    ClientId = "client_id",
+                    ClientSecret = "client_secret",
+                    Scope = "API"
+                }).GetAwaiter().GetResult();
+
+            return tokenResponse.AccessToken;
         }
     }
 }
