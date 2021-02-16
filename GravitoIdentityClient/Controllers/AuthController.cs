@@ -108,14 +108,17 @@ namespace Gravito.IdentityClient.Controllers
             // retrieve access token
             var serverClient = new HttpClient();
 
-            var discoveryDocument = serverClient.GetDiscoveryDocumentAsync("https://dev-identity.gravito.net/").GetAwaiter().GetResult();
+            
+            var discoveryDocument = serverClient.GetDiscoveryDocumentAsync("https://dev-identity.gravito.net/")
+                .GetAwaiter().GetResult();
+
             var tokenResponse = serverClient.RequestClientCredentialsTokenAsync(
                 new ClientCredentialsTokenRequest
                 {
                     Address = discoveryDocument.TokenEndpoint,
 
-                    ClientId = "client_id",
-                    ClientSecret = "client_secret",
+                    ClientId = "client_from_api_postman_local_is4_8",
+                    ClientSecret = "secret_for_client",
                     Scope = "API"
                 }).GetAwaiter().GetResult();
 
