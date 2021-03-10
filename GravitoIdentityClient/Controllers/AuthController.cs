@@ -79,7 +79,7 @@ namespace Gravito.IdentityClient.Controllers
         /// </summary>
         ///
 
-        public string GetAccessToken()
+        private string GetAccessToken()
         {
             // retrieve access token
             var serverClient = new HttpClient();

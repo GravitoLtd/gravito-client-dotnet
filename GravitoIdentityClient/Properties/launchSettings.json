@@ -2,7 +2,8 @@
   "profiles": {
     "Gravito.IdentityClient": {
       "commandName": "Project",
-      "launchBrowser": true
+      "launchBrowser": true,
+      "launchUrl": "token"
     }
   }
 }
