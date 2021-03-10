@@ -1,12 +1,9 @@
 ﻿using IdentityModel.Client;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Primitives;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Gravito.IdentityClient.Controllers
 {
@@ -37,6 +34,8 @@ namespace Gravito.IdentityClient.Controllers
 
                     _accessToken = GetAccessToken();
                 }
+                else
+                    _accessToken = accessToken;
             }
             else
             {
@@ -46,34 +45,12 @@ namespace Gravito.IdentityClient.Controllers
         }
 
         [Route("token")]
-        public async Task<IActionResult> GetToken()
+        public IActionResult GetToken()
         {
-            #region -- Get the access token
-
-            //// Create client to connect to IdentityServer
-            //var serverClient = _httpClientFactory.CreateClient();
-
-            //// Get the available configuration of the server
-            //var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync(_configuration.GetValue<string>("Identity:ServerAddress"));
-
-            //// Call TokenEndpoint and get the token
-            //var tokenResponse = await serverClient.RequestClientCredentialsTokenAsync(
-            //    new ClientCredentialsTokenRequest
-            //    {
-            //        Address = discoveryDocument.TokenEndpoint,
-
-            //        GrantType = _configuration.GetValue<string>("Identity:GrantType"),
-            //        ClientId = _configuration.GetValue<string>("Identity:ClientId"),
-            //        ClientSecret = _configuration.GetValue<string>("Identity:ClientSecret"),
-            //        Scope = _configuration.GetValue<string>("Identity:Scope")
-            //    }) ;
-
-            #endregion
-
             #region -- Create another client to connect to protected endpoint
 
             //var apiClient = _httpClientFactory.CreateClient();
-            //apiClient.SetBearerToken(tokenResponse.AccessToken);
+            //apiClient.SetBearerToken(_accessToken);
 
             //var sampleModel = new
             //{
@@ -92,8 +69,7 @@ namespace Gravito.IdentityClient.Controllers
 
             return Ok(new
             {
-                //access_token = tokenResponse.AccessToken,
-                access_token = _accessToken
+                access_token = _accessToken,
                 //message = content,
             });
         }
@@ -109,7 +85,7 @@ namespace Gravito.IdentityClient.Controllers
             var serverClient = new HttpClient();
 
             
-            var discoveryDocument = serverClient.GetDiscoveryDocumentAsync("https://dev-identity.gravito.net/")
+            var discoveryDocument = serverClient.GetDiscoveryDocumentAsync(_configuration.GetValue<string>("Identity:ServerAddress"))
                 .GetAwaiter().GetResult();
 
             var tokenResponse = serverClient.RequestClientCredentialsTokenAsync(
@@ -117,9 +93,10 @@ namespace Gravito.IdentityClient.Controllers
                 {
                     Address = discoveryDocument.TokenEndpoint,
 
-                    ClientId = "client_from_api_postman_local_is4_8",
-                    ClientSecret = "secret_for_client",
-                    Scope = "API"
+                    GrantType = _configuration.GetValue<string>("Identity:GrantType"),
+                    ClientId = _configuration.GetValue<string>("Identity:ClientId"),
+                    ClientSecret = _configuration.GetValue<string>("Identity:ClientSecret"),
+                    Scope = _configuration.GetValue<string>("Identity:Scope")
                 }).GetAwaiter().GetResult();
 
             return tokenResponse.AccessToken;
