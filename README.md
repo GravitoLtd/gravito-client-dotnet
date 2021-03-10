@@ -29,7 +29,7 @@ Here are a few things which helps you consume the Gravito APIs.
 
 Code required to get the access token from server:
 
-* Declare private variable of `IHttpClientFactory`, inject it in constructure
+* Declare private variable of `IHttpClientFactory`, inject it in a constructure
 ```c#
 private readonly IHttpClientFactory _httpClientFactory;
 ```
@@ -93,11 +93,11 @@ var content = await response.Content.ReadAsStringAsync();
 ### appsettings.json file
 ```json
 "Identity": {
-    "ClientId": "custom_token_client",
+    "ClientId": "client_id",
     "ClientSecret": "client_secret",
-    "Scope": "API",
+    "Scope": "api",
     "GrantType": "client_credentials",
-    "ServerAddress": "https://dev-identity.gravito.net/"
+    "ServerAddress": "https://your-identityserver-address/"
 }
 ```
 
