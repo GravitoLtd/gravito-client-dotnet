@@ -1,32 +1,31 @@
 # Gravito Client Credentials Flow .Net Client
-Gravito's IdentityServer4 client for C#.Net
 
-A sample project which demonstrates how to connect to Gravito's Identity and get the `access_token`.
+This sample demonstrates how to connect to Gravito IdentityServer using C#.Net to get the `access_token`.
 
-Open and view the project using `.zip` file or download from our [GitHub Repository]
+You can download the zip or clone the repository from [GitHub Repository]
 
 ## Table of Contents
-- [Getting started](#getting-started)
-- [Tools required](#tools-required)
-- [Usage guide](#usage-guide)
-- [What after getting token?](#what-after-getting-token)
-- [Visit us at](#visit-us-at)
+- [Getting Started](#getting-started)
+- [Tools Required](#tools-required)
+- [Usage Guide](#usage-guide)
+- [After Getting access_token?](#after-getting-access_token)
+- [References](#references)
+- [Visit Us At](#visit-us-at)
 
 ## Getting Started
 
-You can find the detailed documentation about the **Gravito Identity Management** at [Gravito Docs].
-Here, we have explained how Gravito works as an Identity Provider.
+We have explained how Gravito works as an **Identity Provider** in our detailed documentation at [Gravito Docs].
 
-## Tools required
+## Tools Required
 
 * Visual Studio 2019
-* Microsoft .Net Core SDK 3.1.* (Haven't tested this sample with latest versions, it might need some changes)
+* Microsoft .Net Core SDK 3.1.* (Haven't tested this sample with upper versions, it might need some changes)
 
-## Usage guide
+## Usage Guide
 
 Code required to get the `access_token` from server:
 
-* Declare private variable of `IHttpClientFactory`, inject it in a constructure
+* Declare private variable of `IHttpClientFactory` & inject it in constructor
 ```c#
 private readonly IHttpClientFactory _httpClientFactory;
 ```
@@ -41,10 +40,9 @@ var serverClient = _httpClientFactory.CreateClient();
 var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync(_configuration.GetValue<string>("Identity:ServerAddress"));
 ```
 
-You can access `ServerAddress` from `appsettings.json` or from Azure Key-Vault.
+`ServerAddress` parameter value can be stored in `appsettings.json` or Azure Key-Vault.
 
-
-* Call TokenEndpoint and get the token
+* Call `TokenEndpoint` and get the token
 ```c#
 var tokenResponse = await serverClient.RequestClientCredentialsTokenAsync (
 new ClientCredentialsTokenRequest
@@ -58,10 +56,8 @@ new ClientCredentialsTokenRequest
 });
 ```
 
-## After getting the token
-### Here is what you can do next:
-* Create another client to use protected APIs
-* Set the received bearer token to created client
+## After Getting access_token
+* Create another client of type `HttpClientFactory` to use protected APIs & set the received bearer token to it
 
 ```c#
 var apiClient = _httpClientFactory.CreateClient();
@@ -80,6 +76,7 @@ var sampleModel = new
 var json = JsonConvert.SerializeObject(sampleModel);
 var data = new StringContent(json, Encoding.UTF8, "application/json");
 ```
+
 * Access the protected APIs
 
 ```c#
@@ -87,7 +84,8 @@ var response = await apiClient.PostAsync("https://protected-endpoint", data);
 var content = await response.Content.ReadAsStringAsync();
 ```
 
-### appsettings.json file
+## References
+* appsettings.json file
 ```json
 "Identity": {
     "ClientId": "client_id",
@@ -98,7 +96,7 @@ var content = await response.Content.ReadAsStringAsync();
 }
 ```
 
-## Visit us at
+## Visit Us At
 [Website]
 
 [GitHub Repository]: https://github.com/GravitoLtd/gravito-client-dotnet
