@@ -1,4 +1,4 @@
-# Gravito Client .Net
+# Gravito Client Credentials Flow .Net Client
 Gravito's IdentityServer4 client for C#.Net
 
 A sample project which demonstrates how to connect to Gravito and get the access_token.
