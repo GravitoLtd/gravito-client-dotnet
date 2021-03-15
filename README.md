@@ -1,9 +1,9 @@
 # Gravito Client Credentials Flow .Net Client
 Gravito's IdentityServer4 client for C#.Net
 
-A sample project which demonstrates how to connect to Gravito and get the access_token.
+A sample project which demonstrates how to connect to Gravito's Identity and get the `access_token`.
 
-Open and view the Project using the `.zip` file download or at our [GitHub Repository]
+Open and view the project using `.zip` file or download from our [GitHub Repository]
 
 ## Table of Contents
 - [Getting started](#getting-started)
@@ -15,26 +15,23 @@ Open and view the Project using the `.zip` file download or at our [GitHub Repos
 ## Getting Started
 
 You can find the detailed documentation about the **Gravito Identity Management** at [Gravito Docs].
-
-We have explained how Gravito works as an Identity Provider.
-
-Here are a few things which helps you consume the Gravito APIs.
+Here, we have explained how Gravito works as an Identity Provider.
 
 ## Tools required
 
-* VS Code OR Visual Studio 2019
-* Microsoft .Net Core SDK 3.1.*
+* Visual Studio 2019
+* Microsoft .Net Core SDK 3.1.* (Haven't tested this sample with latest versions, it might need some changes)
 
 ## Usage guide
 
-Code required to get the access token from server:
+Code required to get the `access_token` from server:
 
 * Declare private variable of `IHttpClientFactory`, inject it in a constructure
 ```c#
 private readonly IHttpClientFactory _httpClientFactory;
 ```
 
-* Create client for getting the access_token
+* Create client for getting the `access_token`
 ```c#
 var serverClient = _httpClientFactory.CreateClient();
 ```
@@ -44,7 +41,7 @@ var serverClient = _httpClientFactory.CreateClient();
 var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync(_configuration.GetValue<string>("Identity:ServerAddress"));
 ```
 
-We can access the ServerAddress from `appsettings.json` or from Azure Key-Vault.
+You can access `ServerAddress` from `appsettings.json` or from Azure Key-Vault.
 
 
 * Call TokenEndpoint and get the token
@@ -61,9 +58,9 @@ new ClientCredentialsTokenRequest
 });
 ```
 
-## What after getting token?
+## After getting the token
 ### Here is what you can do next:
-* Create another client for using protected APIs
+* Create another client to use protected APIs
 * Set the received bearer token to created client
 
 ```c#
